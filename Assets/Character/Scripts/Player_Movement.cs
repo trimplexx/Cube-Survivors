@@ -7,11 +7,13 @@ public class Player_Movement : MonoBehaviour
     public float horizontalinput;
     public float verticalinput;
     public float speed;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         speed = 3.0f;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,6 +28,9 @@ public class Player_Movement : MonoBehaviour
 
         // Rotate towards the mouse cursor
         RotateTowardsMouseCursor();
+
+        // Set the "IsWalking" parameter in the Animator
+        animator.SetBool("IsRunning", moveDirection != Vector3.zero);
 
         // Move the object in the direction of the input
         transform.Translate(moveDirection * speed * Time.deltaTime, Space.World); //Space.World is used so the character moves in the world, and not based on it's rotation
