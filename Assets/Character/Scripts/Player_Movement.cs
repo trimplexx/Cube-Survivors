@@ -51,4 +51,16 @@ public class Player_Movement : MonoBehaviour
             transform.LookAt(targetPosition);
         }
     }
+
+    public Vector3 GetMoveDirection()
+    {
+        // Read values from keyboard
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        // Create a direction vector based on the input
+        Vector3 moveDirection = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
+
+        return moveDirection;
+    }
 }
