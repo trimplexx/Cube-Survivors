@@ -11,7 +11,7 @@ public class TerrainPopulator : MonoBehaviour
     private Dictionary<Vector3Int, Chunk> chunks = new Dictionary<Vector3Int, Chunk>();
     
     /*Czas (w sekundach) pomiędzy czyszczeniem chunków*/
-    private float cull_timer = 30f;
+    [Tooltip("Czas po jakim mają zostać usunięte wszystkie chunki (w sekundach)")] public float cull_timer;
     private float time_since_last_cull = 0f;
 
     private void FixedUpdate()
@@ -31,8 +31,6 @@ public class TerrainPopulator : MonoBehaviour
 
     private void CreateChunks()
     {
-        if (!ShouldCreateNewChunk()) return;
-
         /*Obliczanie współrzędnych chunka dla wektora INTÓW (Np przejście z chunka (0, 0, 0) -> (0, 0, 1))*/
         var player_cord = Vector3Int.RoundToInt(player.transform.position / chunk_prefab.size);
 
@@ -41,11 +39,6 @@ public class TerrainPopulator : MonoBehaviour
         {
             CreateNewChunk(pos, chunk_prefab);
         }
-    }
-
-    private bool ShouldCreateNewChunk()
-    {
-        return true;
     }
 
     private Chunk CreateNewChunk(Vector3Int position, Chunk prefab)
@@ -89,23 +82,23 @@ public class TerrainPopulator : MonoBehaviour
         int distanceZ = Mathf.Abs(chunkPos.z - playerPos.z);
 
         /*Sprawdź czy chunk jest na tej samej pozycji co gracz*/
-        return distanceX <= 1 && distanceZ <= 1;
+        return distanceX <= 2 && distanceZ <= 2;
     }
 
     /* Funkcja dodająca do współrzędnych pierwszych chunków pozycję gracza 
             w celu ustalenia współrzędnych dla nowych fragmentów           */
     private Vector3Int[] PositionsAround(Vector3Int position)
     {
-        return new Vector3Int[]
+        List<Vector3Int> positions = new List<Vector3Int>();
+
+        for (int x = -5 / 2; x <= 5 / 2; x++)
         {
-            position + new Vector3Int(1, 0, 0),
-            position + new Vector3Int(0, 0, 1),
-            position + new Vector3Int(1, 0, 1),
-            position + new Vector3Int(-1, 0, 0),
-            position + new Vector3Int(0, 0, -1),
-            position + new Vector3Int(-1, 0, -1),
-            position + new Vector3Int(-1, 0, 1),
-            position + new Vector3Int(1, 0, -1)
-        };
+            for (int z = -5 / 2; z <= 5 / 2; z++)
+            {
+                positions.Add(position + new Vector3Int(x, 0, z));
+            }
+        }
+
+        return positions.ToArray();
     }
 }
