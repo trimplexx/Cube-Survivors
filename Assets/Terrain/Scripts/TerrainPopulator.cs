@@ -13,6 +13,15 @@ public class TerrainPopulator : MonoBehaviour
     /*Czas (w sekundach) pomiędzy czyszczeniem chunków*/
     [Tooltip("Czas po jakim mają zostać usunięte wszystkie chunki (w sekundach)")] public float cull_timer;
     private float time_since_last_cull = 0f;
+    private Color biome; 
+    private int current_biome;
+
+    private void Awake()
+    {
+        /*Ustawia pierwszy biome*/
+        biome = new Color(0.0230f, 0.460f, 0.0958f);
+        current_biome = 0;
+    }
 
     private void FixedUpdate()
     {
@@ -25,6 +34,8 @@ public class TerrainPopulator : MonoBehaviour
         if (time_since_last_cull >= cull_timer)
         {
             CullChunks();
+            current_biome = (current_biome + 1) % 3; //Oblicza który biome ma zostać utworzony przez CreateChunks (0, 1 lub 2)
+            ChangeBiome(current_biome);
             time_since_last_cull = 0f;
         }
     }
@@ -47,6 +58,7 @@ public class TerrainPopulator : MonoBehaviour
         var instance = Instantiate(prefab.gameObject);
         instance.transform.position = (Vector3) position * chunk_prefab.size; //Oblicza pozycję chunka
         Chunk chunkInstance = instance.GetComponent<Chunk>();
+        chunkInstance.Paint(biome); //Koloruje chunki
         chunks.Add(position, chunkInstance); //Dodaje chunki do słownika chunków
         return chunkInstance; //Zwraca utworzony chunk
     }
@@ -100,5 +112,13 @@ public class TerrainPopulator : MonoBehaviour
         }
 
         return positions.ToArray();
+    }
+    
+    /*Funkcja zmieniająca wartość zmiennej ustalającej jaki biome ma być generowany*/
+    private void ChangeBiome(int which_biome)
+    {
+        if (which_biome == 0) biome = new Color(0.0230f, 0.460f, 0.0958f);
+        else if (which_biome == 1) biome = new Color(0.911f, 0.916f, 0.920f);
+        else if (which_biome == 2) biome = new Color(0.750f, 0.716f, 0.525f);
     }
 }
