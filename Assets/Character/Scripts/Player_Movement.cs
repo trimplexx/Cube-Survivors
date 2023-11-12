@@ -6,10 +6,12 @@ public class Player_Movement : MonoBehaviour
 {
     public float speed;
     Animator animator;
+    public Vector3 currentPosition { get; set; }
+    public Vector3 currentDirection { get; set; }
 
     void Start()
     {
-        speed = 3.0f;
+        speed = 15.0f;
         animator = GetComponent<Animator>();
     }
 
@@ -17,8 +19,13 @@ public class Player_Movement : MonoBehaviour
     {
         Vector3 moveDirection = GetMoveDirection(); 
         RotateTowardsMouseCursor();
-        animator.SetBool("IsRunning", moveDirection != Vector3.zero); //Change animator state
-        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World); //Space.World is used so the character moves in the world, and not based on it's rotation
+        //Change animator state
+        animator.SetBool("IsRunning", moveDirection != Vector3.zero); 
+
+        //Space.World is used so the character moves in the world, and not based on it's rotation
+        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World); 
+        currentPosition = transform.position;
+        currentDirection = transform.forward;
     }
 
     void RotateTowardsMouseCursor()
@@ -41,5 +48,10 @@ public class Player_Movement : MonoBehaviour
         Vector3 moveDirection = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 
         return moveDirection;
+    }
+
+    public (Vector3 position, Vector3 direction) GetPlayerPositionAndDirection()
+    {
+        return (transform.position, transform.forward);
     }
 }

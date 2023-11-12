@@ -3,7 +3,8 @@
 public class GeneratorCapsule : MonoBehaviour
 {
     public GameObject capsulePrefab;
-    public float predkoscRuchu = 5f;
+    public float predkoscRuchu = 100f;
+    public float spawnDistance = 1.0f;
 
     void Update()
     {
@@ -13,30 +14,26 @@ public class GeneratorCapsule : MonoBehaviour
         }
     }
 
+
     void GenerateCapsule()
     {
-        // Tworzenie nowego obiektu "Capsule"
-        GameObject capsule = Instantiate(capsulePrefab, transform.position, transform.rotation);
-
-        // Dodawanie komponentu Rigidbody do obiektu "Capsule"
-        Rigidbody capsuleRigidbody = capsule.GetComponent<Rigidbody>();
-        if (capsuleRigidbody == null)
-        {
-            capsuleRigidbody = capsule.AddComponent<Rigidbody>();
-        }
-
-        // Pobieranie kierunku z obiektu Player_Movement
+        // Znajdź obiekt Player_Movement
         Player_Movement playerMovement = FindObjectOfType<Player_Movement>();
+
         if (playerMovement != null)
         {
-            Vector3 kierunek = playerMovement.GetMoveDirection();
+            // Twórz kapsułę przed graczem (0.1 jednostki nad pozycją gracza)
+            Vector3 capsuleSpawnPosition = playerMovement.transform.position + playerMovement.transform.forward * spawnDistance + new Vector3(0, 1.5f, 0);
 
-            // Nadawanie kierunku i prędkości obiektowi "Capsule"
-            capsuleRigidbody.velocity = kierunek * predkoscRuchu;
-        }
-        else
-        {
-            Debug.LogError("Player_Movement script not found in the scene.");
+            // Tworzenie nowego obiektu "Capsule"
+            GameObject capsule = Instantiate(capsulePrefab, capsuleSpawnPosition, playerMovement.transform.rotation);
+
+            // Ustaw prędkość kapsuły na podstawie kierunku, w którym patrzy gracz
+            Rigidbody capsuleRigidbody = capsule.GetComponent<Rigidbody>();
+            capsuleRigidbody.velocity = playerMovement.transform.forward * predkoscRuchu;
+
+            // Wyłącz grawitację dla kapsuły
+            capsuleRigidbody.useGravity = false;
         }
     }
 }
