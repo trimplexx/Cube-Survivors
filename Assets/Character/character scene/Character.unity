@@ -155,6 +155,9 @@ MonoBehaviour:
   player: {fileID: 1957065439}
   chunk_prefab: {fileID: 9114269539528092082, guid: 9bcb94fbd5340894b8f4acefcbb35b9c, type: 3}
   cull_timer: 10
+  prefab_objects:
+  - {fileID: 9037518406985683070, guid: febcf56cc375f28418e4006278754f34, type: 3}
+  maxPrefabsPerChunk: 5
 --- !u!4 &130122224
 Transform:
   m_ObjectHideFlags: 0
