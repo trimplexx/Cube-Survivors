@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,10 +154,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1957065439}
   chunk_prefab: {fileID: 9114269539528092082, guid: 9bcb94fbd5340894b8f4acefcbb35b9c, type: 3}
+  biome_settings:
+  - Name: Forest
+    Prefabs:
+    - {fileID: 1395122600142245902, guid: d27d2c2993894a142b62f201837aac45, type: 3}
+    - {fileID: 4810847159401899457, guid: 3dab4d210c64bd84eb2e6833d189fbd8, type: 3}
+    - {fileID: 9037518406985683070, guid: febcf56cc375f28418e4006278754f34, type: 3}
+    - {fileID: 5572187725712710786, guid: 885f932f0487440479c8ed7778aacda0, type: 3}
+    - {fileID: 1303157613431570747, guid: b67e6f07cb372ac409e5dce6fc0468f3, type: 3}
+  - Name: Snowy_Tundra
+    Prefabs:
+    - {fileID: 5084892277298009756, guid: 4e13857b1e5fc454f9ab2f22a3f218ec, type: 3}
+    - {fileID: 307420962372482491, guid: 7ce9236c4fd5b584fabf57918cbb73e3, type: 3}
+    - {fileID: 5474103625451407204, guid: 4bdc8eb3eb9749546b36fe8a7e78df20, type: 3}
+  - Name: Desert
+    Prefabs:
+    - {fileID: 8681067117473229611, guid: c8f47d3f12685954098a1926471edccd, type: 3}
+    - {fileID: 1516287545754219459, guid: d2d6af3710a685240a2c4ba6605a82bd, type: 3}
+    - {fileID: 8933886512282560551, guid: 05b0c66827738d54fa9c697ac0b23b00, type: 3}
+    - {fileID: 5267884236291554066, guid: f158cdc12c185024989c35697e42da57, type: 3}
   cull_timer: 10
-  prefab_objects:
-  - {fileID: 9037518406985683070, guid: febcf56cc375f28418e4006278754f34, type: 3}
-  maxPrefabsPerChunk: 5
 --- !u!4 &130122224
 Transform:
   m_ObjectHideFlags: 0
@@ -962,6 +978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsulePrefab: {fileID: 318209736}
   predkoscRuchu: 5
+  spawnDistance: 1
 --- !u!1 &1957065438 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5be2d96bfef127a49a787c57686efe30, type: 3}
