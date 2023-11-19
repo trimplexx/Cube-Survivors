@@ -11,7 +11,6 @@ public class Player_Movement : MonoBehaviour
 
     void Start()
     {
-        speed = 15.0f;
         animator = GetComponent<Animator>();
     }
 
