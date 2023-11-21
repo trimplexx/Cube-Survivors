@@ -19,7 +19,10 @@ public class Shooting : MonoBehaviour
 
     IEnumerator GenerateCapsuleWithDelayCoroutine()
     {
-        while (true)
+        // Znajdź obiekt PlayerHealth
+        PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
+
+        while (playerHealth != null && playerHealth.isAlive)
         {
             GenerateCapsuleWithDelay();
             yield return new WaitForSeconds(0.5f); // Opoznienie co pół sekundy
