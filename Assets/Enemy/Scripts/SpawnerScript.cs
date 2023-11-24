@@ -32,7 +32,7 @@ public class SpawnerScript : MonoBehaviour
     public static int currentEnemies = 0;
 
     [SerializeField]
-    private TextMeshProUGUI textTimer;
+    //private TextMeshProUGUI textTimer;
 
     private bool isWaveStarting = false; 
     
@@ -45,16 +45,16 @@ public class SpawnerScript : MonoBehaviour
     {
         timeSpawn -= Time.deltaTime;
 
-        if (!isWaveStarting)
-        {
-            textTimer.text = "Wave time left: " + timeSpawn.ToString("0.00");
-        }
+        //if (!isWaveStarting)
+        //{
+            //textTimer.text = "Wave time left: " + timeSpawn.ToString("0.00");
+        //}
 
         if ((timeSpawn < 0 || currentEnemies == 0) && !isWaveStarting)
         {
             isWaveStarting = true;
-            textTimer.text = "Next wave starting...";
-            Invoke("StartWave", 5); // Wywo³aj funkcjê StartWave po 5 sekundach
+            //textTimer.text = "Next wave starting...";
+            Invoke("StartWave", 5); // Wywoï¿½aj funkcjï¿½ StartWave po 5 sekundach
         }
     }
 
@@ -70,15 +70,15 @@ public class SpawnerScript : MonoBehaviour
             int enemyIndex = 0;
             if (waveNumber >= 7)
             {
-                enemyIndex = Random.Range(0, 4); // Losuje miêdzy 0 a 3 (w³¹cznie z 0, wy³¹cznie 4)
+                enemyIndex = Random.Range(0, 4); // Losuje miï¿½dzy 0 a 3 (wï¿½ï¿½cznie z 0, wyï¿½ï¿½cznie 4)
             }
             else if (waveNumber >= 5)
             {
-                enemyIndex = Random.Range(0, 3); // Losuje miêdzy 0 a 2
+                enemyIndex = Random.Range(0, 3); // Losuje miï¿½dzy 0 a 2
             }
             else if (waveNumber >= 2)
             {
-                enemyIndex = Random.Range(0, 2); // Losuje miêdzy 0 a 1
+                enemyIndex = Random.Range(0, 2); // Losuje miï¿½dzy 0 a 1
             }
             else
             {
@@ -86,9 +86,9 @@ public class SpawnerScript : MonoBehaviour
             }
 
             Instantiate(enemyPrefab[enemyIndex], desiredPosition, randomRotation);
-            currentEnemies++; // Inkrementuj liczbê wrogów
+            currentEnemies++; // Inkrementuj liczbï¿½ wrogï¿½w
         }
         timeSpawn = timeCharacterSpawn * Mathf.Pow(enemyMultiplier, waveNumber) * 1.3f;
-        isWaveStarting = false; // Resetuj flagê
+        isWaveStarting = false; // Resetuj flagï¿½
     }
 }
