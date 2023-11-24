@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     [Tooltip("Prędkość poruszania się postaci")] public float speed;
+    public AudioSource dashSound;
     Animator animator;
     public GameObject dashEffectPrefab;
     [Tooltip("Czas trwania dashowania")] public float dashDuration;
@@ -57,6 +58,7 @@ public class Player_Movement : MonoBehaviour
     {
         if (!isDashing && Time.time - lastDashTime >= dashCooldown)
         {
+            dashSound.Play();
             StartCoroutine(PerformDash());
         }
     }
