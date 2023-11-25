@@ -10,6 +10,8 @@ public class Shooting : MonoBehaviour
     public int level;
     public bool isFire;
     public bool isFrost;
+    public int points = 0;
+    public int pointCounter = 0;
 
     void Start()
     {

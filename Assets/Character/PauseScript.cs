@@ -5,16 +5,24 @@ using UnityEngine;
 public class PauseScript : MonoBehaviour
 {
     public GameObject PauseMenu;
+    public GameObject UpgradeMenu;
 
     void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!PauseMenu.active)
+            if (UpgradeMenu.active)
+            {
+                CloseUpgradeMenu();
+            }
+            else if (!PauseMenu.active)
+            {
                 Pause();
+            }
             else
+            {
                 UnPause();
+            }
         }
     }
     public void Pause()
@@ -27,6 +35,21 @@ public class PauseScript : MonoBehaviour
     {
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
+        UpgradeMenu.SetActive(false);
+    }
+
+    public void OpenUpgradeMenu()
+    {
+        UpgradeMenu.SetActive(true);
+        Time.timeScale = 0;
+        PauseMenu.SetActive(false);
+    }
+
+    public void CloseUpgradeMenu()
+    {
+        UpgradeMenu.SetActive(false);
+        Time.timeScale = 1;
+        PauseMenu.SetActive(true);
     }
 
     public void QuitGame()

@@ -71,6 +71,17 @@ public class EnemyHealth : MonoBehaviour
         }
         Invoke("DestroyObject", 1f); // Zniszcz obiekt po 2 sekundach
         SpawnerScript.currentEnemies--; // Dekrementuj liczbê wrogów
+
+        Shooting shootingScript = FindObjectOfType<Shooting>();
+        if (shootingScript != null)
+        {
+            shootingScript.pointCounter += 1; // Zaktualizuj licznik punktów
+            if(shootingScript.pointCounter >= 5)
+            {
+                shootingScript.pointCounter = 0;
+                shootingScript.points += 1;
+            }
+        }
     }
 
     private void DestroyObject()

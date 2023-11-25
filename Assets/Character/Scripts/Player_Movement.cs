@@ -13,6 +13,7 @@ public class Player_Movement : MonoBehaviour
     [Tooltip("Czas odnowienia dasha po użyciu")] public float dashCooldown;
     private bool isDashing = false; //Flaga określająca czy obecnie trwa dash'owanie
     private float lastDashTime; //Czas ostatniego użycia dash'a
+    public bool CanDash { get; private set; } = false;
 
     public Vector3 currentPosition { get; set; }
     public Vector3 currentDirection { get; set; }
@@ -30,7 +31,7 @@ public class Player_Movement : MonoBehaviour
         //Change animator state
         animator.SetBool("IsRunning", moveDirection != Vector3.zero); 
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)) //Wywołanie dash'a po kliknięciu lewego shifta
+        if (CanDash && Input.GetKeyDown(KeyCode.LeftShift)) //Wywołanie dash'a po kliknięciu lewego shifta
         {
             Dash();
         }
@@ -97,6 +98,12 @@ public class Player_Movement : MonoBehaviour
         Vector3 moveDirection = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 
         return moveDirection;
+    }
+
+    // Metoda publiczna do włączania/wyłączania możliwości dashowania
+    public void SetDashAbility(bool enabled)
+    {
+        CanDash = enabled;
     }
 
     public (Vector3 position, Vector3 direction) GetPlayerPositionAndDirection()
