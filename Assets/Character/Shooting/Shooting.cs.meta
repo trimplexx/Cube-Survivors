@@ -3,7 +3,10 @@ guid: 0f12727dc48fbd04cb26ec20b3d5e8c6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - SpikeBall: {instanceID: 0}
+  - SpikeBallv2: {instanceID: 0}
+  - MagicMissile: {fileID: 6973011941556258851, guid: bdfe2bb2799b49b40b5c610d67178d1d, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
