@@ -3,12 +3,16 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private float stopDistance; // Odleg³oœæ, na której przeciwnik przestaje siê poruszaæ
+    [SerializeField] private float stopDistance; // Odlegï¿½oï¿½ï¿½, na ktï¿½rej przeciwnik przestaje siï¿½ poruszaï¿½
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private float slowDuration = 5f;
+    private float slowTimer = 0f;
+    private bool isSlowed = false;
 
     private Transform playerTransform;
     private Animator animator;
     private EnemyAttack enemyAttack;
-    private EnemyHealth enemyHealth; // Dodajemy referencjê do skryptu EnemyHealth
+    private EnemyHealth enemyHealth; // Dodajemy referencjï¿½ do skryptu EnemyHealth
 
     void Start()
     {
@@ -23,11 +27,43 @@ public class EnemyMovement : MonoBehaviour
         enemyAttack = GetComponent<EnemyAttack>();
         // Pobierz skrypt EnemyHealth
         enemyHealth = GetComponent<EnemyHealth>(); // Pobieramy komponent EnemyHealth
+        normalSpeed = speed; //Przypisanie normalnej prÄ™dkoÅ›ci na poczÄ…tku
+    }
+
+    /*Funkcja sprawdzajÄ…ca czy przeciwnik dostaÅ‚ pociskiem spowalniajÄ…cym jego ruch*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+        if (bullet != null && enemyHealth.shootingScript.isFrost)
+        {
+            ApplySlow();
+        }
+    }
+
+    /*Metoda nakÅ‚adajaca efekt spowolnienia*/
+    private void ApplySlow()
+    {
+        speed = normalSpeed / 2f;
+        isSlowed = true;
     }
 
     void Update()
     {
-        // Jeœli wróg jest martwy, nie kontroluj jego ruchu
+        /*Sprawdzanie czy jest naÅ‚oÅ¼ony efekt spowolnienia*/
+        if (isSlowed)
+        {
+            slowTimer += Time.deltaTime; //Aktualizuj licznik czasu spowolnienia
+
+            /*SprawdÅº, czy czas spowolnienia minÄ…Å‚*/
+            if (slowTimer >= slowDuration)
+            {
+                speed = normalSpeed; //PrzywrÃ³Ä‡ normalnÄ… prÄ™dkoÅ›Ä‡
+                isSlowed = false;
+                slowTimer = 0f;
+            }
+        }
+        
+        // Jeï¿½li wrï¿½g jest martwy, nie kontroluj jego ruchu
         if (enemyHealth.isDead)
         {
             animator.SetBool("isMoving", false);
@@ -38,24 +74,24 @@ public class EnemyMovement : MonoBehaviour
         {
             // Oblicz kierunek od wroga do gracza
             Vector3 direction = (playerTransform.position - transform.position).normalized;
-            // Oblicz odleg³oœæ od wroga do gracza
+            // Oblicz odlegï¿½oï¿½ï¿½ od wroga do gracza
             float distance = (playerTransform.position - transform.position).magnitude;
 
-            // Jeœli gracz jest poza zasiêgiem, przeciwnik siê porusza
+            // Jeï¿½li gracz jest poza zasiï¿½giem, przeciwnik siï¿½ porusza
             if (distance > stopDistance)
             {
-                // Aktualizuj pozycjê wroga, poruszaj¹c go w kierunku gracza
+                // Aktualizuj pozycjï¿½ wroga, poruszajï¿½c go w kierunku gracza
                 transform.position += direction * speed * Time.deltaTime;
 
-                // Zwróæ postaæ wroga w kierunku gracza
+                // Zwrï¿½ï¿½ postaï¿½ wroga w kierunku gracza
                 Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, speed * Time.deltaTime);
 
-                // Ustaw animacjê chodzenia
+                // Ustaw animacjï¿½ chodzenia
                 animator.SetBool("isMoving", true);
                 animator.SetBool("isAttacking", false);
             }
-            else // Jeœli gracz jest w zasiêgu, przeciwnik staje i atakuje
+            else // Jeï¿½li gracz jest w zasiï¿½gu, przeciwnik staje i atakuje
             {
                 animator.SetBool("isMoving", false);
                 if (!animator.GetBool("isAttacking"))

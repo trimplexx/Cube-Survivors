@@ -2024,7 +2024,7 @@ MonoBehaviour:
   level: 6
   isFire: 0
   isFrost: 0
-  points: 0
+  points: 3
   pointCounter: 0
 --- !u!4 &756472235
 Transform:
@@ -3700,7 +3700,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.7, z: -3}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 230764565}
@@ -7591,6 +7591,10 @@ PrefabInstance:
     - target: {fileID: 7699737384754339695, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
       propertyPath: ultCd
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7699737384754339695, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
+      propertyPath: points
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7699737384754339695, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
       propertyPath: isFrost

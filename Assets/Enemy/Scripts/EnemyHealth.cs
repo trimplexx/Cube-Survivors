@@ -3,20 +3,22 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public Shooting shootingScript;
     public GameObject DamageTextPrefab;
     [SerializeField]
     private float health; // Zdrowie moba
     private Animator animator; // Animator moba
-    public bool isDead = false; // Dodajemy now¹ zmienn¹ boolowsk¹
-    private GameObject currentDamageText; // Aktualny tekst obra¿eñ
-    private float damageTextOffset = 0.5f; // Przesuniêcie tekstu obra¿eñ
+    public bool isDead = false; // Dodajemy nowï¿½ zmiennï¿½ boolowskï¿½
+    private GameObject currentDamageText; // Aktualny tekst obraï¿½eï¿½
+    private float damageTextOffset = 0.5f; // Przesuniï¿½cie tekstu obraï¿½eï¿½
     [SerializeField]
     private float baseTextHeight;
-    private float damageTextHeight; // Pocz¹tkowa wysokoœæ tekstu obra¿eñ
+    private float damageTextHeight; // Poczï¿½tkowa wysokoï¿½ï¿½ tekstu obraï¿½eï¿½
     int AddHeight = 0;
 
     private void Start()
     {
+        shootingScript = FindObjectOfType<Shooting>();
         animator = GetComponent<Animator>(); // Pobierz komponent Animator
         damageTextHeight = baseTextHeight;
     }
@@ -32,22 +34,55 @@ public class EnemyHealth : MonoBehaviour
 
     private void TakeDamage(float damage)
     {
-        health -= damage; // Zmniejsz zdrowie o wartoœæ obra¿eñ
+        health -= damage; // Zmniejsz zdrowie o wartoï¿½ï¿½ obraï¿½eï¿½
         ShowDamageText();
 
+        /*JeÅ¼eli jest wÅ‚Ä…czony efekt podpalenia zadawaj obraÅ¼enia na sekundÄ™*/
+        if (shootingScript.isFire)
+        {
+            FireDamage();
+        }
+
+        IsDead();
+    }
+
+    /*Funkcja sprawdzajÄ…ca czy przeciwnik umarÅ‚*/
+    private void IsDead()
+    {
         if (health <= 0 && !isDead) // Sprawdzamy, czy mob nie jest martwy
         {
-            Die(); // Jeœli zdrowie <= 0, mob umiera
+            Die(); // Jeï¿½li zdrowie <= 0, mob umiera
         }
+    }
+
+    /*Funkcja wywoÅ‚ujÄ…ca efekt obraÅ¼eÅ„ na sekundÄ™*/
+    private void FireDamage()
+    {
+        InvokeRepeating("ApplyFireDamage", 0f, 0.5f); //WywoÅ‚aj funkcjÄ™ co 0.5 sekundy
+        Invoke("StopFireDamage", 5f); //Zatrzymaj zadawanie obraÅ¼eÅ„ po 5 sekundach
+    }
+
+    /*Zadawanie obraÅ¼eÅ„, wypisywanie zadanych obraÅ¼eÅ„ oraz sprawdzenie czy przeciwnik umarÅ‚*/
+    private void ApplyFireDamage()
+    {
+        health -= 3.5f;
+        ShowDamageText();
+        IsDead();
+    }
+
+    /*Funkcja zatrzymujÄ…ca zadawanie obraÅ¼eÅ„*/
+    private void StopFireDamage()
+    {
+        CancelInvoke("ApplyFireDamage");
     }
 
     void ShowDamageText()
     {
-        Vector3 textPosition = new Vector3(transform.position.x, transform.position.y + damageTextHeight, transform.position.z); // Pozycja tekstu nad g³ow¹
+        Vector3 textPosition = new Vector3(transform.position.x, transform.position.y + damageTextHeight, transform.position.z); // Pozycja tekstu nad gï¿½owï¿½
         currentDamageText = Instantiate(DamageTextPrefab, textPosition, Quaternion.identity, transform);
-        currentDamageText.transform.LookAt(Camera.main.transform); // Skieruj tekst w stronê kamery
-        currentDamageText.transform.rotation = Quaternion.Euler(60, 0, 0); // Obróæ tekst, aby by³ równoleg³y do kamery
-        currentDamageText.GetComponent<TextMeshPro>().text = health < 0 ? "0" : health.ToString(); // Ustaw tekst obra¿eñ
+        currentDamageText.transform.LookAt(Camera.main.transform); // Skieruj tekst w stronï¿½ kamery
+        currentDamageText.transform.rotation = Quaternion.Euler(60, 0, 0); // Obrï¿½ï¿½ tekst, aby byï¿½ rï¿½wnolegï¿½y do kamery
+        currentDamageText.GetComponent<TextMeshPro>().text = health < 0 ? "0" : health.ToString(); // Ustaw tekst obraï¿½eï¿½
         currentDamageText.GetComponent<TextMeshPro>().color = Color.red; // Ustaw kolor na czerwony
         if (AddHeight == 3)
         {
@@ -59,23 +94,24 @@ public class EnemyHealth : MonoBehaviour
             damageTextHeight += damageTextOffset;
             AddHeight++;
         }
-        Destroy(currentDamageText, 1f); // Zniszcz tekst obra¿eñ po 1 sekundzie
+        Destroy(currentDamageText, 1f); // Zniszcz tekst obraï¿½eï¿½ po 1 sekundzie
     }
 
     private void Die()
     {
         isDead = true; // Ustawiamy isDead na true, gdy mob umiera
+        StopFireDamage();
         if (animator != null)
         {
-            animator.Play("Death"); // Uruchom animacjê œmierci
+            animator.Play("Death"); // Uruchom animacjï¿½ ï¿½mierci
         }
         Invoke("DestroyObject", 1f); // Zniszcz obiekt po 2 sekundach
-        SpawnerScript.currentEnemies--; // Dekrementuj liczbê wrogów
+        SpawnerScript.currentEnemies--; // Dekrementuj liczbï¿½ wrogï¿½w
 
         Shooting shootingScript = FindObjectOfType<Shooting>();
         if (shootingScript != null)
         {
-            shootingScript.pointCounter += 1; // Zaktualizuj licznik punktów
+            shootingScript.pointCounter += 1; // Zaktualizuj licznik punktï¿½w
             if(shootingScript.pointCounter >= 5)
             {
                 shootingScript.pointCounter = 0;
