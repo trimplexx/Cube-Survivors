@@ -9,13 +9,13 @@ public class Camera_Follow_Player : MonoBehaviour
 
     public float cameraHeight;
 
-    // Start is called before the first frame update
+    //Start is called before the first frame update
     void Start()
     {
         cameraHeight = 22;
     }
 
-    // Update is called once per frame
+    //Update is called once per frame
     void Update()
     {
         transform.position = character.transform.position + new Vector3(0, cameraHeight, -cameraHeight/(1.7f));
