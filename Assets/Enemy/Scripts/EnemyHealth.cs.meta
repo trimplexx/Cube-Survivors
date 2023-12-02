@@ -3,7 +3,10 @@ guid: c5c66de450d35ec4fbc34d48dbad08bc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - shootingScript: {instanceID: 0}
+  - DamageTextPrefab: {instanceID: 0}
+  - fireParticleSystem: {fileID: 5502663766353478605, guid: 42e6e0680e1cbb241ac1532f29d24dc5, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

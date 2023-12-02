@@ -98,6 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   stopDistance: 6
+  normalSpeed: 0
+  slowDuration: 5
+  frostEffect: {fileID: 6014499308897533964, guid: 2a50ca6f42f582a4dbaafc1b0a1f3ea4, type: 3}
 --- !u!95 &-677983024567795367
 Animator:
   serializedVersion: 5
@@ -193,6 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c66de450d35ec4fbc34d48dbad08bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootingScript: {fileID: 0}
+  fireEffect: {fileID: 2202918848422567215, guid: 42e6e0680e1cbb241ac1532f29d24dc5, type: 3}
   DamageTextPrefab: {fileID: 5393842050559186111, guid: e8ac9d018366eca45a32ac1eedb22bad, type: 3}
   health: 200
   isDead: 0

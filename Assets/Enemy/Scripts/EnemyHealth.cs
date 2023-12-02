@@ -4,6 +4,8 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public Shooting shootingScript;
+    public ParticleSystem fireEffect;
+    private ParticleSystem currentFireEffect;
     public GameObject DamageTextPrefab;
     [SerializeField]
     private float health; // Zdrowie moba
@@ -59,6 +61,10 @@ public class EnemyHealth : MonoBehaviour
     private void FireDamage()
     {
         InvokeRepeating("ApplyFireDamage", 0f, 0.5f); //Wywołaj funkcję co 0.5 sekundy
+        /*Przypisz efekt podpalenia do przeciwnika*/
+        currentFireEffect = Instantiate(fireEffect, transform.position, Quaternion.identity, transform);
+        currentFireEffect.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        currentFireEffect.Play();
         Invoke("StopFireDamage", 5f); //Zatrzymaj zadawanie obrażeń po 5 sekundach
     }
 
@@ -73,6 +79,7 @@ public class EnemyHealth : MonoBehaviour
     /*Funkcja zatrzymująca zadawanie obrażeń*/
     private void StopFireDamage()
     {
+        Destroy(currentFireEffect.gameObject); //Usuń efekt podpalenia
         CancelInvoke("ApplyFireDamage");
     }
 
@@ -100,7 +107,6 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         isDead = true; // Ustawiamy isDead na true, gdy mob umiera
-        StopFireDamage();
         if (animator != null)
         {
             animator.Play("Death"); // Uruchom animacj� �mierci

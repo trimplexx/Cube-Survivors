@@ -6,6 +6,8 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float stopDistance; // Odleg�o��, na kt�rej przeciwnik przestaje si� porusza�
     [SerializeField] private float normalSpeed;
     [SerializeField] private float slowDuration = 5f;
+    public ParticleSystem frostEffect;
+    private ParticleSystem currentFrostEffect;
     private float slowTimer = 0f;
     private bool isSlowed = false;
 
@@ -43,6 +45,8 @@ public class EnemyMovement : MonoBehaviour
     /*Metoda nakładajaca efekt spowolnienia*/
     private void ApplySlow()
     {
+        currentFrostEffect = Instantiate(frostEffect, transform.position, Quaternion.identity, transform);
+        currentFrostEffect.Play();
         speed = normalSpeed / 2f;
         isSlowed = true;
     }
@@ -57,6 +61,7 @@ public class EnemyMovement : MonoBehaviour
             /*Sprawdź, czy czas spowolnienia minął*/
             if (slowTimer >= slowDuration)
             {
+                Destroy(currentFrostEffect.gameObject); //Usuń efekt podpalenia
                 speed = normalSpeed; //Przywróć normalną prędkość
                 isSlowed = false;
                 slowTimer = 0f;
