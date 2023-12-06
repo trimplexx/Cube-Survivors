@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -341,6 +341,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 0}
   frozenBallButtonText: {fileID: 482858769}
   dashButtonText: {fileID: 0}
+  finisherButtonText: {fileID: 0}
 --- !u!1 &124485265
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,8 +717,9 @@ GameObject:
   - component: {fileID: 211609599}
   - component: {fileID: 211609598}
   - component: {fileID: 211609597}
+  - component: {fileID: 211609600}
   m_Layer: 5
-  m_Name: Heal
+  m_Name: Finisher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -789,9 +791,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
-        m_MethodName: UnPause
+      - m_Target: {fileID: 211609600}
+        m_TargetAssemblyTypeName: UpgradeScript, Assembly-CSharp
+        m_MethodName: UpgradeFinisher
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -839,6 +841,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211609595}
   m_CullTransparentMesh: 1
+--- !u!114 &211609600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211609595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f6dfa37ace7c44aa4be1fe26ed0008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingScript: {fileID: 0}
+  playerMovement: {fileID: 0}
+  upgradeButtonText: {fileID: 0}
+  shootingSpeedButtonText: {fileID: 0}
+  fireBallButtonText: {fileID: 0}
+  frozenBallButtonText: {fileID: 0}
+  dashButtonText: {fileID: 0}
+  finisherButtonText: {fileID: 837515657}
 --- !u!1 &214644959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1660,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 374495580, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
+  m_Sprite: {fileID: 2047992146, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2577,6 +2599,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 0}
   frozenBallButtonText: {fileID: 0}
   dashButtonText: {fileID: 0}
+  finisherButtonText: {fileID: 0}
 --- !u!1 &837515655
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,6 +3937,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 0}
   frozenBallButtonText: {fileID: 0}
   dashButtonText: {fileID: 902716760}
+  finisherButtonText: {fileID: 0}
 --- !u!1 &1042115950
 GameObject:
   m_ObjectHideFlags: 0
@@ -4202,6 +4226,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 0}
   frozenBallButtonText: {fileID: 0}
   dashButtonText: {fileID: 0}
+  finisherButtonText: {fileID: 0}
 --- !u!1 &1058119628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5055,6 +5080,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 1550554569}
   frozenBallButtonText: {fileID: 482858769}
   dashButtonText: {fileID: 902716760}
+  finisherButtonText: {fileID: 837515657}
 --- !u!1 &1249045467
 GameObject:
   m_ObjectHideFlags: 0
@@ -5622,6 +5648,7 @@ MonoBehaviour:
   fireBallButtonText: {fileID: 1550554569}
   frozenBallButtonText: {fileID: 0}
   dashButtonText: {fileID: 0}
+  finisherButtonText: {fileID: 0}
 --- !u!1 &1550554567
 GameObject:
   m_ObjectHideFlags: 0
@@ -7689,6 +7716,10 @@ PrefabInstance:
     - target: {fileID: 866126043359881404, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
       propertyPath: m_Name
       value: Character_Male_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 866126043359881404, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 866126043359881404, guid: 33d2beb8657fd2e469536723658a38b6, type: 3}
       propertyPath: m_TagString

@@ -15,6 +15,7 @@ public class UpgradeScript : MonoBehaviour
     public TextMeshProUGUI fireBallButtonText;
     public TextMeshProUGUI frozenBallButtonText;
     public TextMeshProUGUI dashButtonText;
+    public TextMeshProUGUI finisherButtonText;
 
     void Start()
     {
@@ -85,6 +86,7 @@ public class UpgradeScript : MonoBehaviour
             Debug.LogError("FrozenBall already upgraded, FireBall is active or not enough points.");
         }
     }
+
     public void UpgradeDash()
     {
         if (dashButtonText.text == "0" && shootingScript.points >= 1)
@@ -99,7 +101,20 @@ public class UpgradeScript : MonoBehaviour
         }
     }
 
-    //jeszcze dodatkowe ¿ycie do dodania
+    public void UpgradeFinisher()
+    {
+        if (finisherButtonText.text == "0" && shootingScript.points >= 1)
+        {
+           
+            shootingScript.points -= 1;
+            finisherButtonText.text = "1";
+            shootingScript.ActivateShootInAllDirections(true);
+        }
+        else
+        {
+            Debug.LogError("Finisher already upgraded to maximum or not enough points.");
+        }
+    }
 
     public void ResetUpgrades()
     {
@@ -139,6 +154,13 @@ public class UpgradeScript : MonoBehaviour
             pointsRefunded += 1;
             dashButtonText.text = "0";
             playerMovement.SetDashAbility(false); 
+        }
+
+        if (finisherButtonText.text == "1")
+        {
+            pointsRefunded += 1;
+            finisherButtonText.text = "0";
+            shootingScript.ActivateShootInAllDirections(false);
         }
 
         if (pointsRefunded > 0)

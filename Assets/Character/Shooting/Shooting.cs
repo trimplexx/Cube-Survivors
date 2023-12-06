@@ -16,6 +16,8 @@ public class Shooting : MonoBehaviour
     public int points = 0;
     public int pointCounter = 0;
     private float lastUltTime;
+    private bool isUltActive = false;
+
 
     /*Tablica wektorów kierunku pocisków super umiejętności*/
     private readonly Vector3[] shootingDirections = {
@@ -41,23 +43,28 @@ public class Shooting : MonoBehaviour
     {
         while (true)
         {
-            /*Sprawdzanie czy można użyć super umiejętności*/
-            if (Input.GetKeyDown(KeyCode.R) && Time.time - lastUltTime >= ultCd)
+            if (isUltActive)
             {
-                bool reverseOrder = Random.Range(0, 2) == 1; //Losowanie w którą stronę ma się "kręcić" super umiejętność
-                /*Jeżeli warunek jest spełniony odwraca tablicę*/
-                Vector3[] directionsToUse = reverseOrder ? ReverseArray(shootingDirections) : shootingDirections;
-
-                /*Generowanie pocisków*/
-                foreach (Vector3 direction in directionsToUse)
+                if (Input.GetKeyDown(KeyCode.R) && Time.time - lastUltTime >= ultCd)
                 {
-                    GenerateProjectile(direction);
-                    yield return new WaitForSeconds(0.1f); //Opóźnienie między strzałami
+                    bool reverseOrder = Random.Range(0, 2) == 1;
+                    Vector3[] directionsToUse = reverseOrder ? ReverseArray(shootingDirections) : shootingDirections;
+
+                    foreach (Vector3 direction in directionsToUse)
+                    {
+                        GenerateProjectile(direction);
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    lastUltTime = Time.time;
                 }
-                lastUltTime = Time.time; //Zapisz czas ostatniego użycia super umiejętności
             }
             yield return null;
         }
+    }
+
+    public void ActivateShootInAllDirections(bool activate)
+    {
+        isUltActive = activate;
     }
 
     /*Funkcja generująca pojedynczy pocisk super umiejętności*/
