@@ -43,20 +43,17 @@ public class Shooting : MonoBehaviour
     {
         while (true)
         {
-            if (isUltActive)
+            if (Input.GetKeyDown(KeyCode.R) && Time.time - lastUltTime >= ultCd && isUltActive)
             {
-                if (Input.GetKeyDown(KeyCode.R) && Time.time - lastUltTime >= ultCd)
-                {
-                    bool reverseOrder = Random.Range(0, 2) == 1;
-                    Vector3[] directionsToUse = reverseOrder ? ReverseArray(shootingDirections) : shootingDirections;
+                bool reverseOrder = Random.Range(0, 2) == 1;
+                Vector3[] directionsToUse = reverseOrder ? ReverseArray(shootingDirections) : shootingDirections;
 
-                    foreach (Vector3 direction in directionsToUse)
-                    {
-                        GenerateProjectile(direction);
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    lastUltTime = Time.time;
+                foreach (Vector3 direction in directionsToUse)
+                {
+                    GenerateProjectile(direction);
+                    yield return new WaitForSeconds(0.1f);
                 }
+                lastUltTime = Time.time;
             }
             yield return null;
         }

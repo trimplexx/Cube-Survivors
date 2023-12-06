@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player_Movement : MonoBehaviour
 {
@@ -70,11 +71,11 @@ public class Player_Movement : MonoBehaviour
     {
         isDashing = true;
         float elapsedTime = 0f;
-        Vector3 dashDirection = currentDirection; //Kierunek dash'owania
 
+        Vector3 dashDirection = GetMoveDirection(); //Kierunek dash'owania
         while (elapsedTime < dashDuration) //Pętla wykonująca dash'a
         {
-            transform.Translate(dashDirection * dashDistance, Space.World);
+            transform.Translate(dashDirection * dashDistance * Time.deltaTime *10, Space.World);
             currentPosition = transform.position;
             /*Tworzenie efektu wizualnego dash'a (prefab postaci)*/
             GameObject dashEffect = Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
@@ -92,8 +93,8 @@ public class Player_Movement : MonoBehaviour
 
     public Vector3 GetMoveDirection()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetKey(KeyCode.D) ? 1.0f : (Input.GetKey(KeyCode.A) ? -1.0f : 0.0f);
+        float verticalInput = Input.GetKey(KeyCode.W) ? 1.0f : (Input.GetKey(KeyCode.S) ? -1.0f : 0.0f);
 
         Vector3 moveDirection = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 

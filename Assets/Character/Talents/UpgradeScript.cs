@@ -9,6 +9,7 @@ public class UpgradeScript : MonoBehaviour
 {
     public Shooting shootingScript; // Referencja do skryptu Shooting
     public Player_Movement playerMovement;
+    public Second_Movement secondMovement;
 
     public TextMeshProUGUI upgradeButtonText; // Referencja do tekstu na przycisku ulepszenia
     public TextMeshProUGUI shootingSpeedButtonText;
@@ -21,13 +22,18 @@ public class UpgradeScript : MonoBehaviour
     {
         shootingScript = FindObjectOfType<Shooting>();
         playerMovement = FindObjectOfType<Player_Movement>();
+        secondMovement = FindObjectOfType<Second_Movement>();
         if (shootingScript == null)
         {
             Debug.LogError("Shooting script not found on any GameObject in the scene.");
         }
         if (playerMovement == null)
         {
-            Debug.LogError("Shooting script not found on any GameObject in the scene.");
+            Debug.LogError("player movement script not found on any GameObject in the scene.");
+        }
+        if (secondMovement == null)
+        {
+            Debug.LogError("second movement script not found on any GameObject in the scene.");
         }
     }
 
@@ -94,6 +100,7 @@ public class UpgradeScript : MonoBehaviour
             shootingScript.points -= 1;
             dashButtonText.text = "1";
             playerMovement.SetDashAbility(true);
+            secondMovement.SetDashAbility(true);
         }
         else
         {
@@ -153,7 +160,8 @@ public class UpgradeScript : MonoBehaviour
         {
             pointsRefunded += 1;
             dashButtonText.text = "0";
-            playerMovement.SetDashAbility(false); 
+            playerMovement.SetDashAbility(false);
+            secondMovement.SetDashAbility(false);
         }
 
         if (finisherButtonText.text == "1")
