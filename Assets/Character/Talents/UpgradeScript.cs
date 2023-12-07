@@ -18,6 +18,7 @@ public class UpgradeScript : MonoBehaviour
     public TextMeshProUGUI dashButtonText;
     public TextMeshProUGUI finisherButtonText;
 
+
     void Start()
     {
         shootingScript = FindObjectOfType<Shooting>();
@@ -39,11 +40,13 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeLevel()
     {
-        if (shootingScript.level == 6 && shootingScript.points >= 1)
+        if (shootingScript.level < 3 && shootingScript.points >= 1)
         {
             shootingScript.points -= 1;
-            shootingScript.level = 1;
-            upgradeButtonText.text = "1";
+            shootingScript.pointsToRefund += 1;
+            shootingScript.level ++;
+            shootingScript.ballLvl++;
+            upgradeButtonText.text = shootingScript.ballLvl.ToString();
         }
         else
         {
@@ -53,11 +56,13 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeShootingSpeed()
     {
-        if (shootingScript.shootingSpeed <= 20 && shootingScript.points >= 1)
+        if (shootingScript.shootingSpeed <= 40 && shootingScript.points >= 1)
         {
-            shootingScript.shootingSpeed += 10;
+            shootingScript.shootingSpeed += 2;
             shootingScript.points -= 1;
-            shootingSpeedButtonText.text = "1";
+            shootingScript.pointsToRefund += 1;
+            shootingScript.speed++;
+            shootingSpeedButtonText.text = shootingScript.speed.ToString();
         }
         else
         {
@@ -67,11 +72,17 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeFireBall()
     {
-        if (shootingScript.isFire == false && shootingScript.isFrost == false && shootingScript.points >= 1)
+        if (shootingScript.isFire == false && shootingScript.isFrost == false && shootingScript.points >= 1
+            && shootingScript.fire < 2)
         {
             shootingScript.points -= 1;
-            shootingScript.isFire = true;
-            fireBallButtonText.text = "1";
+            shootingScript.pointsToRefund += 1;
+            shootingScript.fire++;
+            if (shootingScript.fire == 2)
+            {
+                shootingScript.isFire = true;
+            }
+            fireBallButtonText.text = shootingScript.fire.ToString();
         }
         else
         { 
@@ -81,11 +92,17 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeFrozenBall()
     {
-        if (shootingScript.isFrost == false && shootingScript.isFire == false && shootingScript.points >= 1)
+        if (shootingScript.isFrost == false && shootingScript.isFire == false && shootingScript.points >= 1
+            && shootingScript.frost < 2)
         {
             shootingScript.points -= 1;
-            shootingScript.isFrost = true;
-            frozenBallButtonText.text = "1";
+            shootingScript.pointsToRefund += 1;
+            shootingScript.frost++;
+            if (shootingScript.frost == 2)
+            {
+                shootingScript.isFrost = true;
+            }
+            frozenBallButtonText.text = shootingScript.frost.ToString();
         }
         else
         {
@@ -95,12 +112,17 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeDash()
     {
-        if (dashButtonText.text == "0" && shootingScript.points >= 1)
+        if (shootingScript.points >= 1 && shootingScript.dash < 3)
         {
             shootingScript.points -= 1;
-            dashButtonText.text = "1";
-            playerMovement.SetDashAbility(true);
-            secondMovement.SetDashAbility(true);
+            shootingScript.pointsToRefund += 1;
+            shootingScript.dash++;
+            if(shootingScript.dash == 3)
+            {
+                playerMovement.SetDashAbility(true);
+                secondMovement.SetDashAbility(true);
+            }
+            dashButtonText.text = shootingScript.dash.ToString();
         }
         else
         {
@@ -110,12 +132,16 @@ public class UpgradeScript : MonoBehaviour
 
     public void UpgradeFinisher()
     {
-        if (finisherButtonText.text == "0" && shootingScript.points >= 1)
+        if (shootingScript.points >= 1 && shootingScript.finisher < 3)
         {
-           
             shootingScript.points -= 1;
-            finisherButtonText.text = "1";
-            shootingScript.ActivateShootInAllDirections(true);
+            shootingScript.pointsToRefund += 1;
+            shootingScript.finisher += 1;
+            if (shootingScript.finisher == 3)
+            {
+                shootingScript.ActivateShootInAllDirections(true);
+            }
+            finisherButtonText.text = shootingScript.finisher.ToString();
         }
         else
         {
@@ -125,55 +151,29 @@ public class UpgradeScript : MonoBehaviour
 
     public void ResetUpgrades()
     {
-        int pointsRefunded = 0;
+        shootingScript.points = shootingScript.points + shootingScript.pointsToRefund;
+        shootingScript.pointsToRefund = 0;
 
-        // Przywracamy punkty za ka¿de dokonane ulepszenie
-        if (upgradeButtonText.text == "1")
-        {
-            pointsRefunded += 1; // Liczba punktów do przywrócenia za ulepszenie poziomu
-            shootingScript.level = 6; // Resetujemy poziom na domyœlny
-            upgradeButtonText.text = "0";
-        }
+        shootingScript.finisher = 0;
+        shootingScript.ActivateShootInAllDirections(false);
+        shootingScript.dash = 0;
+        playerMovement.SetDashAbility(false);
+        secondMovement.SetDashAbility(false);
+        shootingScript.fire = 0;
+        shootingScript.isFrost = false;
+        shootingScript.frost = 0;
+        shootingScript.isFire = false;
+        shootingScript.speed = 0;
+        shootingScript.shootingSpeed = 20;
+        shootingScript.ballLvl = 0;
+        shootingScript.level = 1;
 
-        if (shootingSpeedButtonText.text == "1")
-        {
-            pointsRefunded += 1; // Liczba punktów do przywrócenia za ulepszenie prêdkoœci strzelania
-            shootingScript.shootingSpeed = 20; // Resetujemy prêdkoœæ strzelania na domyœln¹
-            shootingSpeedButtonText.text = "0";
-        }
+        fireBallButtonText.text = shootingScript.fire.ToString();
+        frozenBallButtonText.text = shootingScript.frost.ToString();
+        dashButtonText.text = shootingScript.dash.ToString();
+        finisherButtonText.text = shootingScript.finisher.ToString();
+        shootingSpeedButtonText.text = shootingScript.speed.ToString();
+        upgradeButtonText.text = shootingScript.ballLvl.ToString();
 
-        if (fireBallButtonText.text == "1")
-        {
-            pointsRefunded += 1;
-            shootingScript.isFire = false;
-            fireBallButtonText.text = "0";
-        }
-
-        if (frozenBallButtonText.text == "1")
-        {
-            pointsRefunded += 1;
-            shootingScript.isFrost = false; 
-            frozenBallButtonText.text = "0"; 
-        }
-
-        if (dashButtonText.text == "1")
-        {
-            pointsRefunded += 1;
-            dashButtonText.text = "0";
-            playerMovement.SetDashAbility(false);
-            secondMovement.SetDashAbility(false);
-        }
-
-        if (finisherButtonText.text == "1")
-        {
-            pointsRefunded += 1;
-            finisherButtonText.text = "0";
-            shootingScript.ActivateShootInAllDirections(false);
-        }
-
-        if (pointsRefunded > 0)
-        {
-            shootingScript.points += pointsRefunded; // Przywracamy punkty
-        }
     }
 }

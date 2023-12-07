@@ -5,7 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField]
     private int maxHealth; // Maksymalne zdrowie gracza
-    private int currentHealth; // Aktualne zdrowie gracza
+    public int currentHealth { get; set; } // Aktualne zdrowie gracza
     private Animator animator; // Animator moba
     public bool isAlive = true;
 

@@ -14,9 +14,18 @@ public class Shooting : MonoBehaviour
     public bool isFire;
     public bool isFrost;
     public int points = 0;
+    public int pointsToRefund = 0;
     public int pointCounter = 0;
     private float lastUltTime;
     private bool isUltActive = false;
+
+    //pomocnicze
+    public int ballLvl = 0;
+    public int speed = 0;
+    public int frost = 0;
+    public int fire = 0;
+    public int finisher = 0;
+    public int dash = 0;
 
 
     /*Tablica wektorów kierunku pocisków super umiejętności*/
@@ -118,7 +127,7 @@ public class Shooting : MonoBehaviour
             Vector3 capsuleSpawnPosition = playerMovement.transform.position +
                 playerMovement.transform.forward * spawnDistance + new Vector3(0, 1.5f, 0);
 
-            if(level <5)
+            if(level < 3)
             ball = Instantiate(SpikeBall, capsuleSpawnPosition, playerMovement.transform.rotation);
             else
             ball = Instantiate(SpikeBallv2, capsuleSpawnPosition, playerMovement.transform.rotation);

@@ -199,6 +199,6 @@ MonoBehaviour:
   shootingScript: {fileID: 0}
   fireEffect: {fileID: 2202918848422567215, guid: 42e6e0680e1cbb241ac1532f29d24dc5, type: 3}
   DamageTextPrefab: {fileID: 5393842050559186111, guid: e8ac9d018366eca45a32ac1eedb22bad, type: 3}
-  health: 200
+  health: 400
   isDead: 0
   baseTextHeight: 3
