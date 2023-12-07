@@ -6,6 +6,7 @@ public class Shooting : MonoBehaviour
     public GameObject SpikeBall;
     public GameObject SpikeBallv2;
     public GameObject MagicMissile;
+    public GameObject SNDMagicMissile;
     [Tooltip("Prędkość pocisków super umiejętności")] public float ultSpeed;
     [Tooltip("Czas odnowienia super umiejętności po użyciu")] public float ultCd;
     [Tooltip("Prędkość zwykłych pocisków")] public float shootingSpeed;
@@ -18,6 +19,8 @@ public class Shooting : MonoBehaviour
     public int pointCounter = 0;
     private float lastUltTime;
     private bool isUltActive = false;
+    private float SNDlastUltTime;
+    private bool SNDisUltActive = false;
 
     //pomocnicze
     public int ballLvl = 0;
@@ -65,18 +68,33 @@ public class Shooting : MonoBehaviour
                 lastUltTime = Time.time;
             }
             yield return null;
+            if (Input.GetKeyDown(KeyCode.Keypad4) && Time.time - SNDlastUltTime >= ultCd && SNDisUltActive)
+            {
+                bool reverseOrder = Random.Range(0, 2) == 1;
+                Vector3[] directionsToUse = reverseOrder ? ReverseArray(shootingDirections) : shootingDirections;
+
+                foreach (Vector3 direction in directionsToUse)
+                {
+                    GenerateSNDProjectile(direction);
+                    yield return new WaitForSeconds(0.1f);
+                }
+                SNDlastUltTime = Time.time;
+            }
+            yield return null;
         }
     }
 
     public void ActivateShootInAllDirections(bool activate)
     {
         isUltActive = activate;
-    }
+        SNDisUltActive = activate;
+}
 
     /*Funkcja generująca pojedynczy pocisk super umiejętności*/
     void GenerateProjectile(Vector3 direction)
     {
         Player_Movement playerMovement = FindObjectOfType<Player_Movement>();
+        Second_Movement secondMovement = FindObjectOfType<Second_Movement>();
         GameObject projectile;
 
         if (playerMovement != null)
@@ -85,6 +103,26 @@ public class Shooting : MonoBehaviour
             Vector3 projectileSpawnPosition = playerMovement.transform.position + direction * spawnDistance + new Vector3(0, 1.5f, 0);
 
             projectile = Instantiate(MagicMissile, projectileSpawnPosition, rotation);
+            projectile.SetActive(true);
+
+            Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
+            projectileRigidbody.velocity = direction * ultSpeed;
+            projectileRigidbody.useGravity = false;
+        }
+    }
+
+    /*Funkcja generująca pojedynczy pocisk super umiejętności*/
+    void GenerateSNDProjectile(Vector3 direction)
+    {
+        Second_Movement playerMovement = FindObjectOfType<Second_Movement>();
+        GameObject projectile;
+
+        if (playerMovement != null)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            Vector3 projectileSpawnPosition = playerMovement.transform.position + direction * spawnDistance + new Vector3(0, 1.5f, 0);
+
+            projectile = Instantiate(SNDMagicMissile, projectileSpawnPosition, rotation);
             projectile.SetActive(true);
 
             Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
@@ -120,40 +158,68 @@ public class Shooting : MonoBehaviour
     {
         // Znajdź obiekt Player_Movement
         Player_Movement playerMovement = FindObjectOfType<Player_Movement>();
+        Second_Movement secondMovement = FindObjectOfType<Second_Movement>();
         GameObject ball;
+        GameObject SNDball;
 
         if (playerMovement != null)
         {
             Vector3 capsuleSpawnPosition = playerMovement.transform.position +
                 playerMovement.transform.forward * spawnDistance + new Vector3(0, 1.5f, 0);
 
-            if(level < 3)
-            ball = Instantiate(SpikeBall, capsuleSpawnPosition, playerMovement.transform.rotation);
+            Vector3 SNDcapsuleSpawnPosition = secondMovement.transform.position +
+                secondMovement.transform.forward * spawnDistance + new Vector3(0, 1.5f, 0);
+
+            if (level < 3)
+            {
+                ball = Instantiate(SpikeBall, capsuleSpawnPosition, playerMovement.transform.rotation);
+                SNDball = Instantiate(SpikeBall, SNDcapsuleSpawnPosition, secondMovement.transform.rotation);
+            }
             else
-            ball = Instantiate(SpikeBallv2, capsuleSpawnPosition, playerMovement.transform.rotation);
+            {
+                ball = Instantiate(SpikeBall, capsuleSpawnPosition, playerMovement.transform.rotation);
+                SNDball = Instantiate(SpikeBallv2, SNDcapsuleSpawnPosition, secondMovement.transform.rotation);
+            }
+                
 
             ball.SetActive(true);
+            SNDball.SetActive(true);
 
-            if(isFire || isFrost)
+            if (isFire || isFrost)
             {
                 Light lightComponent = ball.GetComponent<Light>();
+                Light SNDlightComponent = SNDball.GetComponent<Light>();
                 if (lightComponent == null)
                 {
                     lightComponent = ball.AddComponent<Light>();
+                    SNDlightComponent = SNDball.AddComponent<Light>();
                 }
 
                 lightComponent.type = LightType.Point;
                 lightComponent.intensity = 16f;
+                SNDlightComponent.type = LightType.Point;
+                SNDlightComponent.intensity = 16f;
 
                 if (isFire)
+                {
                     lightComponent.color = Color.red;
-                if(isFrost)
+                    SNDlightComponent.color = Color.red;
+                }
+                    
+                if (isFrost)
+                {
                     lightComponent.color = Color.blue;
+                    SNDlightComponent.color = Color.blue;
+                }
+                    
             }
 
             Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
+            Rigidbody SNDballRigidbody = SNDball.GetComponent<Rigidbody>();
             ballRigidbody.velocity = playerMovement.transform.forward * shootingSpeed;
-            ballRigidbody.useGravity = false;
+            SNDballRigidbody.velocity = secondMovement.transform.forward * shootingSpeed;
+            ballRigidbody.useGravity = false; 
+            SNDballRigidbody.useGravity = false;
         }
     }
 }
