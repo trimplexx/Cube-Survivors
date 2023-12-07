@@ -9,7 +9,7 @@ public class Second_Movement : MonoBehaviour
     Animator animator;
     [SerializeField]
     private GameObject character;
-
+    public GameObject SNDcharacter;
     private Transform Target;
     [Tooltip("Prêdkoœæ poruszania siê postaci")] public float speed;
     [Tooltip("Prêdkoœæ obrotu postaci")] public float rotationSpeed;
@@ -56,7 +56,7 @@ public class Second_Movement : MonoBehaviour
         transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
 
         // This code keeps the second character within a radius of the main character
-        if (Target != null)
+        if (Target != null && SNDcharacter.transform.position.y > -1)
         {
             Vector3 offset = Target.position - transform.position;
             float currentDistance = offset.magnitude;
