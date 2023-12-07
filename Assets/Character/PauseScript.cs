@@ -7,6 +7,7 @@ public class PauseScript : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject UpgradeMenu;
 
+    [System.Obsolete]
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -35,7 +36,6 @@ public class PauseScript : MonoBehaviour
     {
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
-        UpgradeMenu.SetActive(false);
     }
 
     public void OpenUpgradeMenu()
@@ -48,7 +48,6 @@ public class PauseScript : MonoBehaviour
     public void CloseUpgradeMenu()
     {
         UpgradeMenu.SetActive(false);
-        Time.timeScale = 1;
         PauseMenu.SetActive(true);
     }
 
