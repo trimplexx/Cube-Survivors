@@ -21,10 +21,10 @@ public class SpawnerScript : MonoBehaviour
     [SerializeField]
     float distanceFromPlayer;
 
-    public static int waveNumber = 0;
+    public int waveNumber = 0;
 
     [SerializeField]
-    private int initialEnemyCount;
+    public int initialEnemyCount;
 
     [SerializeField]
     private float enemyMultiplier;

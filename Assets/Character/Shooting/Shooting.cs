@@ -94,7 +94,6 @@ public class Shooting : MonoBehaviour
     void GenerateProjectile(Vector3 direction)
     {
         Player_Movement playerMovement = FindObjectOfType<Player_Movement>();
-        Second_Movement secondMovement = FindObjectOfType<Second_Movement>();
         GameObject projectile;
 
         if (playerMovement != null)
@@ -177,7 +176,7 @@ public class Shooting : MonoBehaviour
             }
             else
             {
-                ball = Instantiate(SpikeBall, capsuleSpawnPosition, playerMovement.transform.rotation);
+                ball = Instantiate(SpikeBallv2, capsuleSpawnPosition, playerMovement.transform.rotation);
                 SNDball = Instantiate(SpikeBallv2, SNDcapsuleSpawnPosition, secondMovement.transform.rotation);
             }
                 

@@ -38,6 +38,13 @@ public class PlayerHealth : MonoBehaviour
 
     private void EndGame()
     {
+        SpawnerScript spawnerScript = FindObjectOfType<SpawnerScript>(); // ZnajdŸ obiekt z komponentem PlayerHealth
+        if (spawnerScript != null)
+        {
+            spawnerScript.initialEnemyCount = 2;
+            spawnerScript.waveNumber = 1;
+        }
+
         SceneManager.LoadScene("MenuScene"); // Za³aduj scenê "GameOver"
     }
 }

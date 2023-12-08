@@ -2692,6 +2692,7 @@ MonoBehaviour:
   timeCharacterSpawn: 10
   character: {fileID: 756472231}
   distanceFromPlayer: 30
+  waveNumber: 0
   initialEnemyCount: 2
   enemyMultiplier: 1.4
   isWaveStarting: 0
@@ -2743,7 +2744,7 @@ MonoBehaviour:
   SpikeBall: {fileID: 960500798}
   SpikeBallv2: {fileID: 850734656}
   MagicMissile: {fileID: 1468911558124700814, guid: b178859f9f71da545b737882b4c5af6d, type: 3}
-  SNDMagicMissile: {fileID: 0}
+  SNDMagicMissile: {fileID: 5850038087222696310, guid: dc32484c75bab27459e67fe5c4529ae4, type: 3}
   ultSpeed: 30
   ultCd: 5
   shootingSpeed: 20

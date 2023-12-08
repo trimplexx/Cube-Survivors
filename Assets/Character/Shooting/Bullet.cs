@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     public float baseDamage; // Podstawowe obra¿enia
 
 
+
     [SerializeField]
     public float damageScaleFactor = 1.3f;
 
@@ -15,15 +16,16 @@ public class Bullet : MonoBehaviour
     {
         get
         {
+            SpawnerScript spawnerScript = FindObjectOfType<SpawnerScript>();
             shootingScript = FindObjectOfType<Shooting>();
             // Oblicz obra¿enia na podstawie numeru fali
             if (shootingScript.level > 2)
             {
-                return Mathf.RoundToInt(baseDamage * Mathf.Pow(damageScaleFactor, SpawnerScript.waveNumber)) + 30;
+                return Mathf.RoundToInt(baseDamage * Mathf.Pow(damageScaleFactor, spawnerScript.waveNumber)) + 30;
             }
             else
             {
-                return Mathf.RoundToInt(baseDamage * Mathf.Pow(damageScaleFactor, SpawnerScript.waveNumber));
+                return Mathf.RoundToInt(baseDamage * Mathf.Pow(damageScaleFactor, spawnerScript.waveNumber));
             }
         }
     }
